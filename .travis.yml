@@ -24,31 +24,13 @@ matrix:
     install:
       - /home/travis/.jabba/bin/jabba install openjdk@1.10
 
-env:
-  matrix:
-    - SBT_CMD=";mimaReportBinaryIssues ;scalafmt::test ;test:scalafmt::test ;sbt:scalafmt::test ;headerCheck ;test:headerCheck ;test:compile ;mainSettingsProj/test ;safeUnitTests ;otherUnitTests"
-    - SBT_CMD="scripted actions/*"
-    - SBT_CMD="scripted apiinfo/* compiler-project/* ivy-deps-management/*"
-    - SBT_CMD="scripted dependency-management/*1of4"
-    - SBT_CMD="scripted dependency-management/*2of4"
-    - SBT_CMD="scripted dependency-management/*3of4"
-    - SBT_CMD="scripted dependency-management/*4of4"
-    - SBT_CMD="scripted package/* reporter/* run/* project-load/*"
-    - SBT_CMD="scripted project/*1of2"
-    - SBT_CMD="scripted project/*2of2"
-    - SBT_CMD="scripted source-dependencies/*1of3"
-    - SBT_CMD="scripted source-dependencies/*2of3"
-    - SBT_CMD="scripted source-dependencies/*3of3"
-    - SBT_CMD="scripted tests/*"
-    - SBT_CMD="repoOverrideTest:scripted dependency-management/*"
-
 # Undo _JAVA_OPTIONS environment variable
 before_script:
   - _JAVA_OPTIONS=
 
 script:
   # It doesn't need that much memory because compile and run are forked
-  - sbt -J-XX:ReservedCodeCacheSize=128m -J-Xmx800M -J-Xms800M -J-server "$SBT_CMD"
+  - /home/travis/.jabba/jdk/openjdk@1.10.0/bin/java --version
 
 before_cache:
   - find $HOME/.ivy2 -name "ivydata-*.properties" -print -delete
